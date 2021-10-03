@@ -1425,8 +1425,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 787282651}
   m_HandleRect: {fileID: 787282650}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2256,8 +2256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58367c3f14cb2f64bbd430ef83d4631b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoCollectPercentage: 1
-  SaveDelay: 5
+  AutoCollectPercentage: 0.1
   ResourcesConfigs:
   - Name: Click
     UnlockCost: 0
@@ -2286,6 +2285,7 @@ MonoBehaviour:
   CoinIcon: {fileID: 1595498415}
   GoldInfo: {fileID: 1089369094}
   AutoCollectInfo: {fileID: 1239142809}
+  _totalGold: 0
 --- !u!4 &1960520282
 Transform:
   m_ObjectHideFlags: 0

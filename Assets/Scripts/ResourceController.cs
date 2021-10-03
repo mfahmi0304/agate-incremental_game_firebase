@@ -23,7 +23,7 @@ public class ResourceController : MonoBehaviour
         {
             // Menyimpan value yang di set ke _level pada Progress Data
             UserDataManager.Progress.ResourcesLevels[_index] = value;
-            UserDataManager.Save (true);
+            UserDataManager.Save ();
         }
 
         get
@@ -90,17 +90,31 @@ public class ResourceController : MonoBehaviour
      public void UpgradeLevel ()
     {
         double upgradeCost = GetUpgradeCost ();
-        if (UserDataManager.Progress.Gold < upgradeCost)
+        if (UserDataManager.Progress.Gold  < upgradeCost)
         {
             return;
         }
+        else{
+            if(_level == 10){
+                return;
+            }
+            else{
+                GameManager.Instance.AddGold (-upgradeCost);
+                _level++;
 
-        GameManager.Instance.AddGold (-upgradeCost);
-        _level++;
+                upCost = GetUpgradeCost ().ToString("#,#");
+                descCost = GetOutput ().ToString("#,#");
 
-        ResourceUpgradeCost.text = $"Upgrade Cost\n{ GetUpgradeCost () }";
-        ResourceDescription.text = $"{ _config.Name } Lv. { _level }\n+{ GetOutput ().ToString ("0") }";
-        AnalyticsManager.LogUpgradeEvent (_index, _level);
+                ButtonUpgrade.Play();
+                if(_level == 10){
+                    ResourceUpgradeCost.text = $"MAX";
+                }
+                else{
+                    ResourceUpgradeCost.text = $"Upgrade Cost\n{ upCost }";
+                }
+                ResourceDescription.text = $"{ _config.Name } Lv. { _level }\n+{ descCost }";
+            }
+        }
     }
 
     public void UnlockResource ()
@@ -109,12 +123,12 @@ public class ResourceController : MonoBehaviour
         if (UserDataManager.Progress.Gold < unlockCost)
         {
             return;
-        }
+        } 
 
         SetUnlocked (true);
         GameManager.Instance.ShowNextResource ();
+
         AchievementController.Instance.UnlockAchievement (AchievementType.UnlockResource, _config.Name);
-        AnalyticsManager.LogUnlockEvent (_index);
     }
 
     public void SetUnlocked (bool unlocked)
@@ -126,7 +140,7 @@ public class ResourceController : MonoBehaviour
             if (!UserDataManager.HasResources (_index))
             {
                 UserDataManager.Progress.ResourcesLevels.Add (_level);
-                UserDataManager.Save (true);
+                UserDataManager.Save ();
             }
         }
 
